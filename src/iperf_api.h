@@ -99,6 +99,7 @@ int	iperf_get_test_get_server_output( struct iperf_test* ipt );
 char*	iperf_get_test_bind_address ( struct iperf_test* ipt );
 int	iperf_get_test_udp_counters_64bit( struct iperf_test* ipt );
 int	iperf_get_test_one_off( struct iperf_test* ipt );
+double iperf_get_test_bandwidth( struct iperf_test* ipt );
 
 /* Setter routines for some fields inside iperf_test. */
 void	iperf_set_verbose( struct iperf_test* ipt, int verbose );

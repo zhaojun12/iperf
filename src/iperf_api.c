@@ -276,6 +276,37 @@ iperf_get_no_fq_socket_pacing(struct iperf_test *ipt)
     return ipt->no_fq_socket_pacing;
 }
 
+/* only used for tcp protocol
+   calculate bandwidth using sender statistics */
+double
+iperf_get_test_bandwidth( struct iperf_test* test )
+{
+    struct iperf_stream *sp = NULL;
+    iperf_size_t bytes_sent, total_sent = 0;
+    double start_time, end_time;
+    double bandwidth;
+
+    start_time = 0.;
+    sp = SLIST_FIRST(&test->streams);
+
+    if (sp) {
+        end_time = timeval_diff(&sp->result->start_time, &sp->result->end_time);
+        SLIST_FOREACH(sp, &test->streams, streams) {
+	        bytes_sent = sp->result->bytes_sent - sp->result->bytes_sent_omit;
+            total_sent += bytes_sent;
+        }
+    }
+
+    if (end_time > 0.0) {
+        bandwidth = (double) total_sent / (double) end_time;
+    }
+    else {
+        bandwidth = 0.0;
+    }
+
+    return bandwidth * 8;
+}
+
 /************** Setter routines for some fields inside iperf_test *************/
 
 void

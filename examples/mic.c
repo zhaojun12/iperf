@@ -59,6 +59,8 @@ main( int argc, char** argv )
 	fprintf(iperf_get_test_outfile(test), "%zd bytes of JSON emitted\n",
 		strlen(iperf_get_test_json_output_string(test)));
     }
+    
+    printf("bandwidth : %f\n", iperf_get_test_bandwidth(test));
 
     iperf_free_test( test );
     exit( EXIT_SUCCESS );
